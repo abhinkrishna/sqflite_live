@@ -4,6 +4,12 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 
 class SqfliteLive {
+  // Signleton
+  static SqfliteLive? _instance;
+  SqfliteLive._();
+  static SqfliteLive get instance => _instance ??= SqfliteLive._();
+
+  // Declarations
   late final Database _database;
 
   Future<Database> open(String dbName, String createSql, {int version = 1, bool readOnly = false, bool newInstance = false}) async {
