@@ -26,6 +26,23 @@ class SqfliteLive {
 
   SQLPagination makeSQLPagination(page, limit) => SQLPagination(page, limit);
 
+  Future<List<Map<String, Object?>>> rawQuery(raw) async => await this._database.rawQuery(raw);
+
+  Future<int> insert(tableName, values, {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.rollback}) async => await this._database.insert(tableName, {...values, 'created_at': this.currentTime, 'updated_at': this.currentTime}, conflictAlgorithm: conflictAlgorithm);
+
+  Future<int> update(tableName, values, {String? where, List? whereArgs, ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.rollback}) async => await this._database.update(tableName, {...values, 'updated_at': this.currentTime}, where: where, whereArgs: whereArgs, conflictAlgorithm: conflictAlgorithm);
+
+  Future<int> updateWithId(tableName, values, id) async => await this._database.update(tableName, {...values, 'updated_at': this.currentTime}, where: '"id" = ?', whereArgs: ['$id']);
+
+  Future<List<Map<String, Object?>>> readMany(tableName, {List<String>? columns, String? where, List? whereArgs, String? groupBy, String? having, String? orderBy, SQLPagination? pagination, bool? isDistinct}) async => await this._database.query(tableName, columns: columns, where: where, whereArgs: whereArgs, groupBy: groupBy, having: having, orderBy: orderBy, limit: pagination?.limit, offset: pagination?.offset, distinct: isDistinct);
+
+  Future<Map<String, Object?>?> readOne(tableName, String where, List whereArgs, {String? orderBy}) async {
+    List result = await this._database.query(tableName, where: where, whereArgs: whereArgs, orderBy: orderBy, limit: 1);
+    return (result.length > 0 && result[0] != null) ? result[0] : null;
+  }
+
+  String get currentTime => DateTime.now().toUtc().toIso8601String();
+
   void close() async {
     await _database.close();
   }
