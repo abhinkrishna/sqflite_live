@@ -2,6 +2,7 @@ library sqflite_live;
 
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
+import 'package:sqflite_live/model/pagination.dart';
 
 class SqfliteLive {
   // Signleton
@@ -22,6 +23,8 @@ class SqfliteLive {
     );
     return _database;
   }
+
+  SQLPagination makeSQLPagination(page, limit) => SQLPagination(page, limit);
 
   void close() async {
     await _database.close();
