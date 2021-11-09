@@ -26,6 +26,8 @@ class SqfliteLive {
 
   SQLPagination makeSQLPagination(page, limit) => SQLPagination(page, limit);
 
+  get db => _database;
+
   Future<List<Map<String, Object?>>> rawQuery(raw) async => await this._database.rawQuery(raw);
 
   Future<int> insert(tableName, values, {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.rollback}) async => await this._database.insert(tableName, {...values, 'created_at': this.currentTime, 'updated_at': this.currentTime}, conflictAlgorithm: conflictAlgorithm);
