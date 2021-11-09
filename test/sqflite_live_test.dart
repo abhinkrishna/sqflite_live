@@ -4,7 +4,7 @@ import 'package:sqflite_live/sqflite_live.dart';
 
 void main() {
   test('try opening database ', () async {
-    SqfliteLive instance = SqfliteLive();
+    SqfliteLive instance = SqfliteLive.instance;
     var db = await instance.open('test_database', ''' CREATE TABLE ( test id INTEGER PRIMARY KEY AUTOINCREMENT ) ''');
     expect(db.runtimeType, Database);
     expect(db.path.runtimeType, String);
