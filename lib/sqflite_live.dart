@@ -5,11 +5,6 @@ import 'package:path/path.dart' as p;
 import 'package:sqflite_live/model/pagination.dart';
 
 class SqfliteLive {
-  // Signleton
-  static SqfliteLive? _instance;
-  SqfliteLive._();
-  static SqfliteLive get instance => _instance ??= SqfliteLive._();
-
   // Declarations
   late final Database _database;
 
